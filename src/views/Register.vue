@@ -1,12 +1,17 @@
 <template>
   <div>
     <div class="pagetop row">
-      <div class="col-xs-3">多吃一碗</div>
+      <div class="col-xs-3"><img src="../assets/title.png" class="title"></div>
       <div class="col-xs-6"></div>
-      <div class="col-xs-3 toRegiest">已有账号？<a @click="toLogin">登录</a></div>
+      <div class="col-xs-3 toLogin">已有账号？<a @click="toLogin">登录</a></div>
     </div>
-    <div class="register">
+    <div class="register row">
       <div class="message">注册一个新账号</div>
+      <div class="col-xs-2"></div>
+      <div class="col-xs-3 col-xs-7">
+        <img src="../assets/logo.png" class="logoimg">
+      </div>
+
         <form :model="registerModel" label-width="50px" class="registerforms">
           <div class="form-group">
             <div class="input-group">
@@ -39,13 +44,13 @@
             </div>
 
           </div>
-          <a class="btn btn-primary submit" @click="test" href="javascript:void(0)">注册</a>
+          <a class="btn btn-primary submit" @click="register" href="javascript:void(0)">注册</a>
         </form>
     </div>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   export default {
     name: 'login',
     data () {
@@ -59,12 +64,58 @@
     },
 
     methods: {
-      test() {
-        layer.msg('登录成功')
+      register() {
+        var vm = this
+        if(vm.registerModel.account.length == 0 ||
+           vm.registerModel.password.length == 0 ||
+           vm.registerModel.confirm.length == 0) {
+          layer.msg('用户信息不完整')
+        }
+        else if(vm.registerModel.password != vm.registerModel.confirm) {
+          layer.msg('密码不一致')
+        }
+        else {
+          let params = {
+            account: vm.registerModel.account,
+            password: vm.registerModel.password,
+          }
+          vm.$http.post('/api/login/getAccount',params).then((response) => {
+            console.log(response.data)
+            if(response.data.type == "SUCCESS") {
+              layer.msg('该账号已经存在，请重新选一个')
+            }
+            else{
+              vm.$http.post('/api/login/createAccount',params)
+                .then((response) => {
+                  console.log(response.data)
+                  if(response.data.type == "SUCCESS") {
+                    layer.msg('注册成功')
+                    vm.$router.push({ path:'/login' })
+                  }
+
+                })
+                .then((response) => {
+                  // 错误响应
+                  console.log(response)
+                })
+                .catch ((reject) => {
+                  console.log(reject)
+                })
+            }
+
+          })
+          .then((response) => {
+              // 错误响应
+              console.log(response)
+          })
+          .catch ((reject) => {
+              console.log(reject)
+          })
+        }
       },
       toLogin(){
         var vm = this
-        vm.$router.replace({ path: '/login' })
+        vm.$router.push({ path: '/login' })
       }
     }
   }
@@ -91,5 +142,11 @@
   .registerforms {
     margin: 0 auto;
     width: 300px;
+  }
+
+
+  .toLogin {
+    height: 50px;
+    line-height: 50px;
   }
 </style>

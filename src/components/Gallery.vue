@@ -14,18 +14,21 @@
       <!-- /.box-header -->
       <div class="box-body no-padding">
         <ul class="photo-gallery clearfix">
-          <li>
-            <img src="../assets/rice.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/1.jpg" class="img-circle">
             <div class="text">
-              <div class="inner">Alexander Pierce</div>
+              <div class="inner">日式拉面</div>
             </div>
 
           </li>
-          <li>
-            <img src="../assets/meat.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/2.jpg">
+            <div class="text">
+              <div class="inner">日式拉面</div>
+            </div>
             <div class="tags">
                 <span class="label-holder">
-                  <span class="label label-info">breakfast</span>
+                  <span class="label label-info">早餐</span>
                 </span>
 
                 <span class="label-holder">
@@ -41,31 +44,31 @@
                 </span>
             </div>
           </li>
-          <li>
-            <img src="../assets/sweet.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/3.jpg">
             <div class="text">
               <div class="inner">Jane</div>
             </div>
           </li>
-          <li>
-            <img src="../assets/fish.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/4.jpg">
             <a href="#"><div class="text">
               <div class="inner">John</div></div></a>
           </li>
-          <li>
-            <img src="../assets/vegetable.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/5.jpg">
             <a href="#">Alexander</a>
           </li>
-          <li>
-            <img src="../assets/cake.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/6.png">
             <a href="#">Sarah</a>
           </li>
-          <li>
-            <img src="../assets/egg.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/7.jpg">
             <a href="#">Nora</a>
           </li>
-          <li>
-            <img src="../assets/fruit.png" alt="User Image">
+          <li class="col-md-2">
+            <img src="../assets/lastest/8.jpg">
             <a href="#">Nadia</a>
           </li>
         </ul>
@@ -90,7 +93,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .photo-gallery > li {
-    width: 20%;
+    /*width: 20%;*/
     float: left;
     padding: 10px;
     text-align: center;
@@ -100,7 +103,12 @@ export default {
   .photo-gallery>li img {
     border-radius: 50%;
     max-width: 100%;
-    height: auto
+    z-index: 5;
+    min-height: 90px;
+    min-width: 90px;
+    border: 3px solid;
+    border-color: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   .photo-gallery>li a{
@@ -138,5 +146,6 @@ export default {
     vertical-align: middle;
     max-width: 90%;
     cursor: pointer;
+    z-index: 100;
   }
 </style>

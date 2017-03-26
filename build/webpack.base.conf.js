@@ -89,3 +89,14 @@ module.exports = {
       plugins: ['transform-runtime']
     }
 }
+
+function a(arr) {
+  var result = ''
+  arr.forEach(function(item) {
+    if(result.indexOf(item) <0 ) {
+      result = result+item
+    }
+  })
+  result = result.split('')
+  return result
+}

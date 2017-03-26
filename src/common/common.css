@@ -113,4 +113,13 @@ ul {
   .right-action .right-arrow-disable, .right-action .right-arrow-disable:hover {
     background-position: -150px -280px; }
 
+
+.title {
+  height: 50px;
+}
+
+.logoimg{
+  max-width: 200px;
+}
+
 /*# sourceMappingURL=common.css.map */

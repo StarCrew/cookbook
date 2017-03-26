@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="pagetop row">
-    <div class="col-xs-3">多吃一碗</div>
+    <div class="col-xs-3"><img src="../assets/title.png" class="title"></div>
     <div class="col-xs-6"></div>
     <div class="col-xs-3 toRegiest">没有账号？<a @click="toRegiest">注册</a></div>
   </div>
@@ -32,7 +32,7 @@
                    @keyup.enter="" required="required">
           </div>
         </div>
-        <a class="btn btn-primary submit" @click="test" href="javascript:void(0)">登录</a>
+        <a class="btn btn-primary submit" @click="login" href="javascript:void(0)">登录</a>
       </form>
     </div>
   </div>
@@ -52,29 +52,42 @@ export default {
   },
 
   methods: {
-    test() {
+    login() {
       var vm = this
-      vm.$http.get('/api/login/getAccount')
-        .then((response) => {
-          console.log(response)
-          let params = {
-            account: vm.account,
-            password: vm.password
-          }
-          return vm.$http.post('/api/login/createAccount',params)
-        })
-        .then((response) => {
-          console.log(response)
-          layer.msg('登录成功')
-        })
-        .catch ((reject) => {
-          console.log(reject)
-       })
+      if(vm.loginModel.account.length == 0||vm.loginModel.password.length == 0) {
+        layer.msg('用户信息不完整')
+      }
+     else {
+        let params = {
+          account: vm.loginModel.account,
+          password: vm.loginModel.password,
+        }
+        vm.$http.post('/api/login/getAccount',params)
+          .then((response) => {
+            console.log(response.data)
+            if(response.data.type == "SUCCESS") {
+              layer.msg('登录成功')
+              vm.$router.push({ path:'/home' })
+            }
+            else if(response.data.type == "ERROR") {
+              layer.msg(response.data.msg)
+            }
+
+          })
+          .then((response) => {
+            // 错误响应
+            console.log(response)
+          })
+          .catch ((reject) => {
+            console.log(reject)
+          })
+      }
+
 
     },
     toRegiest(){
       var vm = this
-      vm.$router.replace({ path: '/register' })
+      vm.$router.push({ path: '/register' })
     }
   }
 }
@@ -83,11 +96,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .pagetop {
-    padding: 20px 40px;
+    padding: 10px 40px;
     border-bottom: 1px solid #eee
-  }
-  .logoimg{
-    width: 280px;
   }
 
   .message{
@@ -100,5 +110,13 @@ export default {
 
   .login {
     padding: 40px 100px;
+  }
+
+  .title {
+    height: 50px;
+  }
+  .toRegiest {
+    height: 50px;
+    line-height: 50px;
   }
 </style>

@@ -10,9 +10,11 @@
             <ul class="sub">
               <li v-for="item in item.sub" class="sub-cat">
                 <div class="row">
-                  <span class="col-xs-2 sub-title"><a>{{ item.subcategory }}</a></span>
+                  <span class="col-xs-2 sub-title" v-if="item.subcategory"><a>{{ item.subcategory }}</a></span>
                   <div class="col-xs-10">
-                    <span v-for="item in item.subname" class="col-xs-3 sub-name"><a>{{ item.name }}</a></span>
+                    <span v-for="item in item.subname" class="col-xs-3 sub-name">
+                      <a :title="item">{{ item }}</a>
+                    </span>
                   </div>
                 </div>
                 </li>
@@ -25,45 +27,22 @@
 </template>
 
 <script>
+import datas from '../data.json'
 export default {
   name: '',
   data () {
     return {
-      navigation:[{
-        name: '家常菜'
-      },{
-        name: '早餐'
-      },{
-        name: '午餐'
-      },{
-        name: '晚餐'
-      },{
-        name: '鱼肉'
-      },{
-        name: '蔬菜',
-        sub: [{
-          subcategory: '瓜',
-          subname: [{
-            name: '黄瓜'
-          },{
-            name: '青瓜'
-          },{
-            name: '西瓜'
-          },{
-            name: '丝瓜'
-          },{
-            name: '瓜皮'
-          }]
-        },{
-          subcategory: '水果'
-        }]
-      }],
+      navigation:[],
       styleObject: {
         color: 'red',
         fontSize: '13px'
       },
       fontSize:12
     }
+  },
+  created: function() {
+    var vm = this
+    vm.navigation = datas
   }
 }
 </script>
@@ -74,7 +53,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
   background: none no-repeat 0;
-  background-image: url(../assets/vertical2.png);
+  background-image: url(../assets/vertical3.png);
   text-indent: 49px;
   width: 32px;
   height: 32px;
@@ -99,7 +78,7 @@ export default {
 
   .arrow-icon {
     position: absolute;
-    left: 100px;
+    left: 110px;
     bottom: 8px;
     background-position: -10px -60px;
     width: 10px;
@@ -109,11 +88,11 @@ export default {
   .vertical-menu-sub {
     display: none;
     position: absolute;
-    left: 120px;
+    left: 140px;
     top: 0px;
     background-color: #e8e6e3;
     padding: 20px;
-    width: 350px;
+    width: 400px;
     z-index: 100;
   }
 
@@ -127,6 +106,14 @@ export default {
 
   .sub-cat {
     padding: 11.2px 0;
+    font-size: 12px;
+  }
+
+  .sub-cat .sub-name{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    text-align: left;
   }
 
   .sub-cat:not(:last-child) {
