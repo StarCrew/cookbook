@@ -53,7 +53,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
   background: none no-repeat 0;
-  background-image: url(../assets/vertical3.png);
+  background-image: url(../assets/vertical4.png);
   text-indent: 49px;
   width: 32px;
   height: 32px;
@@ -78,7 +78,7 @@ export default {
 
   .arrow-icon {
     position: absolute;
-    left: 110px;
+    left: 120px;
     bottom: 8px;
     background-position: -10px -60px;
     width: 10px;

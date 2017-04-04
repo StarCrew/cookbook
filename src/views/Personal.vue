@@ -1,12 +1,12 @@
 <template>
   <div>
-
+    这是小姐姐我的主页啦你害怕了吗
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 export default {
-  name: '',
+  name: 'personal',
   data () {
     return {
 

@@ -1,6 +1,11 @@
 <template>
   <div class="row page-top">
-    <div class="col-xs-2"><img src="../assets/title.png" class="title"></div>
+    <div class="col-xs-2">
+      <router-link to="/home">
+        <img src="../assets/title.png" class="title">
+      </router-link>
+
+    </div>
     <div class="col-xs-3">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="关键字">
@@ -51,54 +56,67 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu box-widget widget-user">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../assets/rice.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">大大吃货</span>
+              <img :src="userAvatarPath" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ userName }}</span>
             </a>
             <ul class="dropdown-menu">
               <div class="widget-user-header bg-aqua-active user-header">
-                <h6 class="widget-user-desc text-center">享受人生，享受生活</h6>
+                <h6 class="widget-user-desc text-center">{{ signature }}</h6>
               </div>
-              <div class="widget-user-image">
-                <img class="img-circle" src="../assets/rice.png" alt="User Avatar">
-              </div>
+              <router-link to="/personal">
+                <div class="widget-user-image">
+                  <img class="img-circle" :src="userAvatarPath" alt="User Avatar">
+                </div>
+              </router-link>
               <div class="box-footer">
                 <div class="row">
                   <div class="col-sm-4 border-right">
                     <div class="description-block">
-                      <h5 class="description-header">3,200</h5>
-                      <span class="description-text">关注</span>
+                      <router-link to="/following">
+                        <h5 class="description-header">{{ followingCount }}</h5>
+                        <span class="description-text">关注</span>
+                      </router-link>
+
                     </div>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
                   <div class="col-sm-4 border-right">
                     <div class="description-block">
-                      <h5 class="description-header">13,000</h5>
-                      <span class="description-text">粉丝</span>
+                      <router-link to="/follower">
+                        <h5 class="description-header">{{ followerCount }}</h5>
+                        <span class="description-text">粉丝</span>
+                      </router-link>
                     </div>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
                   <div class="col-sm-4">
                     <div class="description-block">
-                      <h5 class="description-header">35</h5>
-                      <span class="description-text">收藏</span>
+                      <router-link to="/collection">
+                        <h5 class="description-header">{{ collectionCount }}</h5>
+                        <span class="description-text">收藏</span>
+                      </router-link>
                     </div>
                     <!-- /.description-block -->
                   </div>
                   <!-- /.col -->
                 </div>
                 <!-- /.row -->
-                <div class="row">
-                  <li class="user-footer">
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-primary btn-flat">退出登录</a>
-                    </div>
-                  </li>
+                <div class="row user-footer">
+                  <!--<li class="user-footer">-->
+                    <router-link class="pull-left" to="/uploadMenu">
+                      <button class="btn btn-primary btn-flat">上传作品</button>
+                    </router-link>
+                    <router-link class="pull-right" to="/updateUser">
+                      <button class="btn btn-primary btn-flat">修改资料</button>
+                    </router-link>
+                  <!--</li>-->
                 </div>
               </div>
             </ul>
           </li>
+          <i class="fa fa-sign-out" alt="退出登录" @click="toLogin"></i>
         </ul>
       </div>
     </nav>
@@ -107,20 +125,59 @@
 
 <script>
 export default {
-  name: '',
+  name: 'pageTop',
   data () {
     return {
-      isLogin: true
+      isLogin: true,
+      id: '',
+      imgPath: '',
+      userAvatarPath: '',
+      _id: '',
+      account: '',
+      avatar: '',
+      collectionCount: 0,
+      followerCount: 0,
+      followingCount: 0,
+      password: '',
+      signature: '',
+      productionCount: 0,
+      userName: ''
     }
   },
+  created: function() {
+    var vm = this
+    vm.getMessage()
+  },
+//  mounted: function() {
+//    var vm = this
+////    vm.imgPath = JSON.parse(localStorage.getItem('userAvatar')).toString()
+////    vm.userAvatarPath = require('../../../../background/userAvatar'+vm.imgPath)
+//  },
   methods: {
+    getMessage() {
+      var vm = this
+      vm.id = JSON.parse(localStorage.getItem('id'))
+      vm._id = vm.id._id
+      vm.account = vm.id.account
+      vm.avatar = vm.id.avatar
+      vm.collectionCount = vm.id.collectionCount
+      vm.followerCount = vm.id.followerCount
+      vm.followingCount = vm.id.followingCount
+      vm.password = vm.id.password
+      vm.productionCount = vm.id.productionCount
+      vm.userName = vm.id.userName
+      vm.signature = vm.id.signature
+      localStorage.setItem('userAvatar',JSON.stringify(vm.avatar))
+      vm.imgPath = JSON.parse(localStorage.getItem('userAvatar')).toString()
+      vm.userAvatarPath = require('../../../../background/userAvatar'+vm.imgPath)
+    },
     toLogin() {
       var vm = this
-      vm.$router.replace({ path: '/login' })
+      vm.$router.push({ path: '/login' })
     },
     toRegister() {
       var vm = this
-      vm.$router.replace({ path: '/register' })
+      vm.$router.push({ path: '/register' })
     }
   }
 }
@@ -134,6 +191,10 @@ export default {
 
   .img-circle {
     cursor: pointer;
+  }
+
+  .input-group {
+    margin-top: 8px;
   }
 
   .user-action{
@@ -166,4 +227,42 @@ export default {
   .user-footer a{
     margin-right: 10px;
   }
+
+  .title {
+    cursor: pointer;
+  }
+
+  a:hover {
+    background: rgba(255,255,255,0);
+  }
+
+  .description-header {
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .description-text {
+    text-transform: uppercase;
+    color: #2c3e50;
+  }
+
+  .user-footer {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .pull-left {
+    margin-left: 10px;
+  }
+
+  .fa-sign-out {
+    color: #922;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+  }
+
 </style>

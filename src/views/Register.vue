@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="">
     <div class="pagetop row">
-      <div class="col-xs-3"><img src="../assets/title.png" class="title"></div>
-      <div class="col-xs-6"></div>
+      <div class="col-xs-1"></div>
+      <div class="col-xs-8"><img src="../assets/title.png" class="title" @click="toHome"></div>
       <div class="col-xs-3 toLogin">已有账号？<a @click="toLogin">登录</a></div>
     </div>
     <div class="register row">
@@ -64,6 +64,7 @@
     },
 
     methods: {
+      // 注册
       register() {
         var vm = this
         if(vm.registerModel.account.length == 0 ||
@@ -77,7 +78,7 @@
         else {
           let params = {
             account: vm.registerModel.account,
-            password: vm.registerModel.password,
+            password: vm.registerModel.password
           }
           vm.$http.post('/api/login/getAccount',params).then((response) => {
             console.log(response.data)
@@ -113,9 +114,15 @@
           })
         }
       },
+      // 跳转到登录页
       toLogin(){
         var vm = this
         vm.$router.push({ path: '/login' })
+      },
+      // 跳转到主页
+      toHome() {
+        var vm = this
+        vm.$router.push({ path: '/home' })
       }
     }
   }
@@ -148,5 +155,9 @@
   .toLogin {
     height: 50px;
     line-height: 50px;
+  }
+
+  .title {
+    cursor: pointer;
   }
 </style>

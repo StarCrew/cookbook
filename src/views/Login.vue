@@ -1,8 +1,8 @@
 <template>
 <div>
   <div class="pagetop row">
-    <div class="col-xs-3"><img src="../assets/title.png" class="title"></div>
-    <div class="col-xs-6"></div>
+    <div class="col-xs-1"></div>
+    <div class="col-xs-8"><img src="../assets/title.png" class="title" @click="toHome"></div>
     <div class="col-xs-3 toRegiest">没有账号？<a @click="toRegiest">注册</a></div>
   </div>
   <div class="row login">
@@ -52,6 +52,7 @@ export default {
   },
 
   methods: {
+    // 登录
     login() {
       var vm = this
       if(vm.loginModel.account.length == 0||vm.loginModel.password.length == 0) {
@@ -60,19 +61,19 @@ export default {
      else {
         let params = {
           account: vm.loginModel.account,
-          password: vm.loginModel.password,
+          password: vm.loginModel.password
         }
         vm.$http.post('/api/login/getAccount',params)
           .then((response) => {
-            console.log(response.data)
+            console.log(response.data.data)
             if(response.data.type == "SUCCESS") {
               layer.msg('登录成功')
               vm.$router.push({ path:'/home' })
+              localStorage.setItem('id',JSON.stringify(response.data.data))
             }
             else if(response.data.type == "ERROR") {
               layer.msg(response.data.msg)
             }
-
           })
           .then((response) => {
             // 错误响应
@@ -85,9 +86,15 @@ export default {
 
 
     },
+    // 跳转到登录页
     toRegiest(){
       var vm = this
       vm.$router.push({ path: '/register' })
+    },
+    // 跳转到主页
+    toHome() {
+      var vm = this
+      vm.$router.push({ path: '/home' })
     }
   }
 }
