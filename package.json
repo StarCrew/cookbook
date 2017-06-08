@@ -2,7 +2,7 @@
   "name": "cookbook",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "zhantt <zhantt@minstone.com.cn>",
+  "author": "starcrew",
   "private": true,
   "scripts": {
     "build": "node build/build.js",
